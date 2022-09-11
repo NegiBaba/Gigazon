@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Box, Container, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
@@ -6,6 +5,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import React from 'react'
 import NavLink from './navlink'
+import PropTypes from 'prop-types'
 
 const NavBar = ({ currentPage, redirectToPage }) => {
   const pages = ['Home', 'Products', 'Orders', 'Discontinued']
@@ -75,6 +75,11 @@ const NavBar = ({ currentPage, redirectToPage }) => {
       </Container>
     </Box>
   )
+}
+
+NavBar.propTypes = {
+  currentPage: PropTypes.string,
+  redirectToPage: PropTypes.func
 }
 
 export default NavBar
