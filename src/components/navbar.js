@@ -3,12 +3,20 @@ import Grid from '@mui/material/Unstable_Grid2'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavLink from './navlink'
 import PropTypes from 'prop-types'
+import { useLocation } from 'react-router-dom'
 
 const NavBar = ({ currentPage, redirectToPage }) => {
   const pages = ['Home', 'Products', 'Orders', 'Discontinued']
+
+  const location = useLocation()
+
+  useEffect(() => {
+    redirectToPage(location.pathname.slice(1))
+  })
+
   return (
     <Box
       sx={{

@@ -6,7 +6,8 @@ import Home from './pages/home'
 import Products from './pages/products'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('Home')
+  const [currentPage, setCurrentPage] = useState()
+
   return (
     <BrowserRouter>
       <NavBar currentPage={currentPage} redirectToPage={setCurrentPage} />
