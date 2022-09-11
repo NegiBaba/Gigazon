@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { theme } from './theme/theme'
 import reportWebVitals from './reportWebVitals'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'https://62aef939b735b6d16a4a46fd.mockapi.io'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
