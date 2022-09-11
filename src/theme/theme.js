@@ -18,6 +18,25 @@ export const theme = createTheme({
     },
     text: {
       primary: '#000000'
+    },
+    success: {
+      main: '#690'
+    }
+  },
+  typography: {
+    fontFamily: ['Poppins', 'Montserrat'].join(',')
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#fab528',
+          textTransform: 'none',
+          '&:hover': {
+            backgroundColor: '#fab528'
+          }
+        }
+      }
     }
   }
 })
