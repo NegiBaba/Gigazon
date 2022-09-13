@@ -1,12 +1,15 @@
-// import { Typography } from '@mui/material'
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
-import { put } from '../api/api-products'
+import { useDispatch } from 'react-redux'
+import { addProductToCart } from '../features/cartSlice'
 import React from 'react'
+import { put } from '../api/api-cart'
 
 const Product = ({ product }) => {
+  const dispatch = useDispatch()
+
   const formattedPrice = () => {
     return Number.parseFloat(product.price).toFixed(2)
   }
@@ -41,9 +44,14 @@ const Product = ({ product }) => {
     )
   }
 
-  const addProductToCart = debounce(() => {
+  const addProductsToCart = debounce(() => {
     put(product, 1).then((res) => {
       console.log(res)
+      dispatch(
+        addProductToCart({
+          product
+        })
+      )
     })
   }, 200)
 
@@ -112,7 +120,7 @@ const Product = ({ product }) => {
           sx={{
             display: 'none'
           }}
-          onClick={() => addProductToCart()}
+          onClick={() => addProductsToCart()}
         >
           Add to Cart
         </Button>

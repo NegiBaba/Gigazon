@@ -5,6 +5,8 @@ import App from './App'
 import { theme } from './theme/theme'
 import reportWebVitals from './reportWebVitals'
 import axios from 'axios'
+import { Provider } from 'react-redux'
+import store from './store'
 
 axios.defaults.baseURL = 'https://62aef939b735b6d16a4a46fd.mockapi.io'
 
@@ -13,7 +15,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </CssBaseline>
     </ThemeProvider>
   </React.StrictMode>

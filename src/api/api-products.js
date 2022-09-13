@@ -1,15 +1,11 @@
 import axios from 'axios'
 
+/**
+ * Fetch list of products
+ * @returns Promise
+ */
 const list = () => {
   return axios.get('/products')
 }
 
-const put = (product, quantity) => {
-  return axios.post('/cart', {
-    id: product.id,
-    name: product.name,
-    quantity
-  })
-}
-
-export { list, put }
+export { list }
