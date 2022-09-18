@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Badge, Box, Container, Typography } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
@@ -74,7 +74,9 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                 }}
               >
                 <SearchOutlinedIcon />
-                <ShoppingCartOutlinedIcon />
+                <Badge badgeContent={1} color="secondary">
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
                 <AccountCircleIcon />
               </Box>
             </Grid>
