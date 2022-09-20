@@ -29,12 +29,20 @@ export const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
+        contained: {
           backgroundColor: '#fab528',
           textTransform: 'none',
           '&:hover': {
             backgroundColor: '#fab528'
           }
+        }
+      }
+    },
+    MuiButtonGroup: {
+      styleOverrides: {
+        outlined: {
+          border: '1px solid #fab528',
+          color: '#000000'
         }
       }
     }
