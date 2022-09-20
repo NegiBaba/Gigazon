@@ -5,7 +5,7 @@ import axios from 'axios'
  * @returns Promise
  */
 const list = () => {
-  return axios.get('/products')
+  return axios.get('/api/products')
 }
 
 export { list }
