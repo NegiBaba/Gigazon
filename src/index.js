@@ -8,7 +8,7 @@ import axios from 'axios'
 import { Provider } from 'react-redux'
 import store from './store'
 
-axios.defaults.baseURL = 'https://62aef939b735b6d16a4a46fd.mockapi.io'
+axios.defaults.baseURL = 'http://localhost:5000'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

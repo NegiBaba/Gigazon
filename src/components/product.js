@@ -1,14 +1,19 @@
-import { Button, Typography } from '@mui/material'
+import { Button, ButtonGroup, IconButton, Typography } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
-import { debounce } from 'lodash'
-import { useDispatch } from 'react-redux'
-import { addProductToCart } from '../features/cartSlice'
+import { debounce, get } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { addProductToCart, fetchCartItems } from '../features/cartSlice'
 import React from 'react'
 import { put } from '../api/api-cart'
 
 const Product = ({ product }) => {
   const dispatch = useDispatch()
+  const currentProductInCart = useSelector((state) => state.cart.products.find(cartItem => {
+    return get(cartItem, 'product._id', undefined) === get(product, '_id', null)
+  }))
 
   const formattedPrice = () => {
     return Number.parseFloat(product.price).toFixed(2)
@@ -37,7 +42,7 @@ const Product = ({ product }) => {
               ml: 1
             }}
           >
-            ${product.discount}
+            ${Number.parseFloat(product.price - product.discount).toFixed(2)}
           </Typography>
         ) : null}
       </>
@@ -45,15 +50,29 @@ const Product = ({ product }) => {
   }
 
   const addProductsToCart = debounce(() => {
-    put(product, 1).then((res) => {
-      console.log(res)
-      dispatch(
-        addProductToCart({
-          product
-        })
-      )
-    })
+    put(product, 1)
+      .then(() => {
+        if (!currentProductInCart) {
+          dispatch(addProductToCart(product))
+        }
+      })
   }, 200)
+
+  const decreaseProductQuantity = debounce(() => {
+    if (currentProductInCart.quantity !== 1) {
+      put(currentProductInCart, currentProductInCart.quantity - 1)
+        .then(() => {
+          dispatch(fetchCartItems())
+        })
+    }
+  })
+
+  const increaseProductQuantity = debounce(() => {
+    put(currentProductInCart, currentProductInCart.quantity + 1)
+      .then(() => {
+        dispatch(fetchCartItems())
+      })
+  })
 
   return (
     <Box
@@ -71,6 +90,9 @@ const Product = ({ product }) => {
           '& .MuiButton-root': {
             display: 'flex'
           },
+          '& .MuiButtonGroup-root': {
+            display: 'flex'
+          },
           '& .MuiTypography-subtitle2': {
             color: 'secondary.main'
           }
@@ -83,7 +105,7 @@ const Product = ({ product }) => {
           justifyContent: 'center'
         }}
       >
-        <img src={product.img} alt={product.name} height="150px" />
+        <img src={product.image} alt={product.name} height="150px" />
       </Box>
       <Typography
         variant="subtitle2"
@@ -111,21 +133,69 @@ const Product = ({ product }) => {
           m: 2
         }}
       >
-        <Button
-          variant="contained"
-          disableElevation
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-          sx={{
-            display: 'none'
-          }}
-          onClick={() => addProductsToCart()}
-        >
-          Add to Cart
-        </Button>
+        {
+          currentProductInCart ?
+            <ButtonGroup
+              variant="outlined"
+              disableFocusRipple
+              disableRipple
+              sx={{
+                display: 'none'
+              }}
+            >
+              <IconButton
+                disableFocusRipple
+                disableRipple
+                disableTouchRipple
+                sx={{
+                  borderRadius: '0',
+                  '&:hover': {
+                    backgroundColor: 'secondary.main',
+                    color: 'primary.main'
+                  }
+                }}
+                onClick={() => decreaseProductQuantity()}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <Box sx={{
+                alignItems: 'center',
+                display: 'flex',
+                px: '10px'
+              }}>{currentProductInCart.quantity}</Box>
+              <IconButton
+                disableFocusRipple
+                disableRipple
+                disableTouchRipple
+                sx={{
+                  borderRadius: '0',
+                  '&:hover': {
+                    backgroundColor: 'secondary.main',
+                    color: 'primary.main'
+                  }
+                }}
+                onClick={() => increaseProductQuantity()}
+              >
+                <AddIcon />
+              </IconButton>
+            </ButtonGroup>
+            :
+            <Button
+              variant="contained"
+              disableElevation
+              disableFocusRipple
+              disableRipple
+              disableTouchRipple
+              sx={{
+                display: 'none'
+              }}
+              onClick={() => addProductsToCart()}
+            >
+              Add to Cart
+            </Button>
+        }
       </Box>
-    </Box>
+    </Box >
   )
 }
 

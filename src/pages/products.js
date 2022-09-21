@@ -14,7 +14,6 @@ const Products = () => {
     if (productsStatus === 'idle') {
       dispatch(fetchProducts())
     }
-    console.log(products)
   }, [productsStatus, dispatch])
 
   let content
@@ -38,8 +37,8 @@ const Products = () => {
     )
   } else if (productsStatus === 'succeeded') {
     content = products.map((product) => (
-      <Grid item key={product.id} lg={3}>
-        <Product key={product.id} product={product} />
+      <Grid item key={product._id} lg={3}>
+        <Product key={product._id} product={product} />
       </Grid>
     ))
   }
