@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import { debounce, get } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { addProductToCart } from '../features/cartSlice'
+import { addProductToCart, fetchCartItems } from '../features/cartSlice'
 import React from 'react'
 import { put } from '../api/api-cart'
 
@@ -51,12 +51,29 @@ const Product = ({ product }) => {
 
   const addProductsToCart = debounce(() => {
     put(product, 1)
-      .then(res => {
+      .then(() => {
         if (!currentProductInCart) {
           dispatch(addProductToCart(product))
         }
       })
   }, 200)
+
+  const decreaseProductQuantity = debounce(() => {
+    if (currentProductInCart.quantity !== 1) {
+      put(currentProductInCart, currentProductInCart.quantity - 1)
+        .then(() => {
+          dispatch(fetchCartItems())
+        })
+    }
+  })
+
+  const increaseProductQuantity = debounce(() => {
+    console.log(currentProductInCart.quantity);
+    put(currentProductInCart, currentProductInCart.quantity + 1)
+      .then(() => {
+        dispatch(fetchCartItems())
+      })
+  })
 
   return (
     <Box
@@ -123,7 +140,6 @@ const Product = ({ product }) => {
               variant="outlined"
               disableFocusRipple
               disableRipple
-              disableTouchRipple
               sx={{
                 display: 'none'
               }}
@@ -132,15 +148,16 @@ const Product = ({ product }) => {
                 disableFocusRipple
                 disableRipple
                 disableTouchRipple
-                disableElevation
                 sx={{
                   borderRadius: '0',
                   '&:hover': {
                     backgroundColor: 'secondary.main',
                     color: 'primary.main'
                   }
-                }}>
-                <AddIcon />
+                }}
+                onClick={() => decreaseProductQuantity()}
+              >
+                <RemoveIcon />
               </IconButton>
               <Box sx={{
                 alignItems: 'center',
@@ -151,15 +168,16 @@ const Product = ({ product }) => {
                 disableFocusRipple
                 disableRipple
                 disableTouchRipple
-                disableElevation
                 sx={{
                   borderRadius: '0',
                   '&:hover': {
                     backgroundColor: 'secondary.main',
                     color: 'primary.main'
                   }
-                }}>
-                <RemoveIcon />
+                }}
+                onClick={() => increaseProductQuantity()}
+              >
+                <AddIcon />
               </IconButton>
             </ButtonGroup>
             :
