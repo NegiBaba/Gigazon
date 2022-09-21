@@ -68,7 +68,6 @@ const Product = ({ product }) => {
   })
 
   const increaseProductQuantity = debounce(() => {
-    console.log(currentProductInCart.quantity);
     put(currentProductInCart, currentProductInCart.quantity + 1)
       .then(() => {
         dispatch(fetchCartItems())
