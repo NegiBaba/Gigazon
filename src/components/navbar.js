@@ -4,9 +4,8 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import React, { useEffect, useState } from 'react'
-// import NavLink from './navlink'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCartItems } from '../features/cartSlice'
 import EggIcon from '@mui/icons-material/Egg';
@@ -15,6 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const NavBar = ({ currentPage, redirectToPage }) => {
 
   const location = useLocation()
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
 
@@ -44,6 +44,10 @@ const NavBar = ({ currentPage, redirectToPage }) => {
       dropdown
     </Box>
   )
+  const redirectToCartPage = () => {
+    navigate('/cart');
+    redirectToPage('cart')
+  }
 
   return (
     <Box
@@ -149,7 +153,7 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                 }}
               >
                 <SearchOutlinedIcon />
-                <Badge badgeContent={cartItemsCount} color="secondary">
+                <Badge badgeContent={cartItemsCount} color="secondary" onClick={() => redirectToCartPage()}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
                 <AccountCircleIcon />

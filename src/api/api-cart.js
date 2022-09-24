@@ -17,7 +17,12 @@ const list = () => {
   return axios.get('/api/cart');
 }
 
+const remove = (id) => {
+  return axios.delete(`/api/cart?id=${id}`)
+}
+
 export {
   put,
-  list
+  list,
+  remove
 }

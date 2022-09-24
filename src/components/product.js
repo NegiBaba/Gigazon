@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import { debounce, get } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import { addProductToCart, fetchCartItems } from '../features/cartSlice'
+import { fetchCartItems } from '../features/cartSlice'
 import React from 'react'
 import { put } from '../api/api-cart'
 
@@ -53,14 +53,14 @@ const Product = ({ product }) => {
     put(product, 1)
       .then(() => {
         if (!currentProductInCart) {
-          dispatch(addProductToCart(product))
+          dispatch(fetchCartItems())
         }
       })
   }, 200)
 
   const decreaseProductQuantity = debounce(() => {
     if (currentProductInCart.quantity !== 1) {
-      put(currentProductInCart, currentProductInCart.quantity - 1)
+      put(currentProductInCart.product, currentProductInCart.quantity - 1)
         .then(() => {
           dispatch(fetchCartItems())
         })
@@ -68,7 +68,7 @@ const Product = ({ product }) => {
   })
 
   const increaseProductQuantity = debounce(() => {
-    put(currentProductInCart, currentProductInCart.quantity + 1)
+    put(currentProductInCart.product, currentProductInCart.quantity + 1)
       .then(() => {
         dispatch(fetchCartItems())
       })
