@@ -31,7 +31,7 @@ const Product = ({ product }) => {
             textDecoration: `${product.discount > 0 ? 'line-through' : null}`
           }}
         >
-          ${formattedPrice()}
+          ₹{formattedPrice()}
         </Typography>
         {product.discount > 0 ? (
           <Typography
@@ -42,7 +42,7 @@ const Product = ({ product }) => {
               ml: 1
             }}
           >
-            ${Number.parseFloat(product.price - product.discount).toFixed(2)}
+            ₹{Number.parseFloat(product.price - product.discount).toFixed(2)}
           </Typography>
         ) : null}
       </>
