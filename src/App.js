@@ -2,10 +2,9 @@ import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import NavBar from './components/navbar'
-import Home from './pages/home'
 import Products from './pages/products'
 
-function App() {
+function App () {
   const [currentPage, setCurrentPage] = useState()
 
   return (
@@ -17,8 +16,7 @@ function App() {
         }}
       >
         <Routes>
-          <Route path="/" element={<Navigate replace to="/home" />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate replace to="/products" />} />
           <Route path="/products" element={<Products />} />
         </Routes>
       </Box>
