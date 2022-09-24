@@ -14,10 +14,14 @@ export const theme = createTheme({
     },
     background: {
       default: '#ffffff',
-      secondary: '#f3f3f3'
+      secondary: '#f3f3f3',
+    },
+    border: {
+      default: '#eeeeee'
     },
     text: {
-      primary: '#000000'
+      primary: '#000000',
+      secondary: '#555555'
     },
     success: {
       main: '#690'

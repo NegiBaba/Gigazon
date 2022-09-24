@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import React, { useEffect, useState } from 'react'
 import NavLink from './navlink'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCartItems } from '../features/cartSlice'
 
@@ -14,6 +14,7 @@ const NavBar = ({ currentPage, redirectToPage }) => {
   const pages = ['Home', 'Products', 'Orders', 'Discontinued']
 
   const location = useLocation()
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
 
@@ -27,6 +28,11 @@ const NavBar = ({ currentPage, redirectToPage }) => {
     }
     setCartItemsCount(cart.products.length)
   }, [cart, dispatch])
+
+  const redirectToCartPage = () => {
+    navigate('/cart');
+    redirectToPage('cart')
+  }
 
   return (
     <Box
@@ -85,7 +91,7 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                 }}
               >
                 <SearchOutlinedIcon />
-                <Badge badgeContent={cartItemsCount} color="secondary">
+                <Badge badgeContent={cartItemsCount} color="secondary" onClick={() => redirectToCartPage()}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
                 <AccountCircleIcon />
