@@ -19,9 +19,6 @@ export const theme = createTheme({
     border: {
       default: '#eeeeee'
     },
-    border: {
-      default: '#eeeeee'
-    },
     text: {
       primary: '#000000',
       secondary: '#555555'
