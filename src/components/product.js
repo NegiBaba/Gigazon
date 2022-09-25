@@ -82,8 +82,13 @@ const Product = ({ product }) => {
         borderRadius: 1,
         cursor: 'pointer',
         p: { lg: 4 },
+        position: 'relative',
         '&:hover': {
           borderColor: 'primary.dark',
+          '& .buttonGroup-container': {
+            borderStyle: 'solid',
+            display: 'flex'
+          },
           '& img': {
             transform: 'scale(1.05)'
           },
@@ -127,12 +132,25 @@ const Product = ({ product }) => {
         {productPrice()}
       </Box>
       <Box
+        className="buttonGroup-container"
         sx={{
-          display: 'flex',
+          backgroundColor: 'primary.main',
+          borderColor: 'primary.dark',
+          borderRadius: '0 0 4px 4px',
+          borderStyle: 'none',
+          borderWidth: '0 1px 1px',
+          bottom: '-55px',
+          display: 'none',
           justifyContent: 'center',
-          m: 2
+          left: '-1px',
+          pb: '30px',
+          position: 'absolute',
+          right: '-1px',
+          zIndex: '1040'
         }}
       >
+
+        {/* CTAs */}
         {
           currentProductInCart ?
             <ButtonGroup
@@ -140,7 +158,7 @@ const Product = ({ product }) => {
               disableFocusRipple
               disableRipple
               sx={{
-                display: 'none'
+                display: 'none',
               }}
             >
               <IconButton
@@ -194,6 +212,7 @@ const Product = ({ product }) => {
               Add to Cart
             </Button>
         }
+
       </Box>
     </Box >
   )
