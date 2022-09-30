@@ -8,50 +8,50 @@ import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCartItems } from '../features/cartSlice'
-import EggIcon from '@mui/icons-material/Egg';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import EggIcon from '@mui/icons-material/Egg'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
-const NavBar = ({ currentPage, redirectToPage }) => {
-
+const NavBar = ({ redirectToPage }) => {
   const location = useLocation()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
 
-  const [cartItemsCount, setCartItemsCount] = useState(0);
-  const [showCategories, setCategoriesDropwdownState] = useState(false);
+  const [cartItemsCount, setCartItemsCount] = useState(0)
+  const [showCategories, setCategoriesDropwdownState] = useState(false)
 
   useEffect(() => {
     redirectToPage(location.pathname.slice(1))
     if (cart.status === 'idle') {
-      dispatch(fetchCartItems());
-      setCartItemsCount(cart.products.length);
+      dispatch(fetchCartItems())
+      setCartItemsCount(cart.products.length)
     }
     setCartItemsCount(cart.products.length)
   }, [cart, dispatch])
 
-
   const categoriesDropdown = () => (
-    <Box sx={{
-      border: '1px solid red',
-      left: '0',
-      position: 'absolute',
-      top: '50px',
-      transform: 'translateX(-25%)',
-      height: '300px',
-      width: '300px'
-    }}>
+    <Box
+      sx={{
+        border: '1px solid red',
+        left: '0',
+        position: 'absolute',
+        top: '50px',
+        transform: 'translateX(-25%)',
+        height: '300px',
+        width: '300px'
+      }}
+    >
       dropdown
     </Box>
   )
 
   const redirectToCartPage = () => {
-    navigate('/cart');
+    navigate('/cart')
     redirectToPage('cart')
   }
 
   const redirectToHome = () => {
-    navigate('/');
+    navigate('/')
   }
 
   return (
@@ -77,12 +77,15 @@ const NavBar = ({ currentPage, redirectToPage }) => {
               sx={{
                 alignItems: 'center',
                 cursor: 'pointer',
-                display: 'flex',
-              }}>
-              <EggIcon sx={{
-                color: 'secondary.main',
-                fontSize: '2.4rem'
-              }} />
+                display: 'flex'
+              }}
+            >
+              <EggIcon
+                sx={{
+                  color: 'secondary.main',
+                  fontSize: '2.4rem'
+                }}
+              />
               <Typography
                 variant="h5"
                 sx={{
@@ -102,15 +105,15 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                 justifyContent: 'center'
               }}
             >
-
               {/* Search Bar */}
-              <Box sx={{
-                alignItems: 'center',
-                backgroundColor: 'background.secondary',
-                borderRadius: '5px',
-                display: 'flex',
-              }}>
-
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  backgroundColor: 'background.secondary',
+                  borderRadius: '5px',
+                  display: 'flex'
+                }}
+              >
                 {/* Dropdown Box */}
                 <Box
                   onClick={() => setCategoriesDropwdownState(!showCategories)}
@@ -120,12 +123,16 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                     display: 'flex',
                     p: '14px 20px',
                     position: 'relative'
-                  }}>
-                  <Typography variant='subtitle2' sx={{
-                    fontWeight: 400,
-                    pr: '10px',
-                    textTransform: 'uppercase',
-                  }}>
+                  }}
+                >
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      fontWeight: 400,
+                      pr: '10px',
+                      textTransform: 'uppercase'
+                    }}
+                  >
                     All Categories
                   </Typography>
                   <KeyboardArrowDownIcon />
@@ -139,16 +146,18 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                     fontSize: '13px',
                     minWidth: '300px',
                     px: '10px'
-                  }}></InputBase>
+                  }}
+                ></InputBase>
 
-                <Box sx={{
-                  display: 'flex',
-                  cursor: 'pointer',
-                  px: '20px'
-                }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    cursor: 'pointer',
+                    px: '20px'
+                  }}
+                >
                   <SearchOutlinedIcon />
                 </Box>
-
               </Box>
             </Grid>
             <Grid Item lg={2}>
@@ -163,7 +172,11 @@ const NavBar = ({ currentPage, redirectToPage }) => {
                 }}
               >
                 <SearchOutlinedIcon />
-                <Badge badgeContent={cartItemsCount} color="secondary" onClick={() => redirectToCartPage()}>
+                <Badge
+                  badgeContent={cartItemsCount}
+                  color="secondary"
+                  onClick={() => redirectToCartPage()}
+                >
                   <ShoppingCartOutlinedIcon />
                 </Badge>
                 <AccountCircleIcon />
@@ -171,13 +184,12 @@ const NavBar = ({ currentPage, redirectToPage }) => {
             </Grid>
           </Grid>
         </Box>
-      </Container >
-    </Box >
+      </Container>
+    </Box>
   )
 }
 
 NavBar.propTypes = {
-  currentPage: PropTypes.string,
   redirectToPage: PropTypes.func
 }
 
