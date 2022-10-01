@@ -23,7 +23,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a--->
 
-  <h3 align="center">Gigazon</h3>
+  <h2 align="center">Gigazon</h2>
 
   <p align="center">
     An E-Commerce web application to view and order food related items.
