@@ -2,9 +2,13 @@ import { Box, Container } from '@mui/material'
 import Filter from './filter'
 import Grid from '@mui/material/Unstable_Grid2'
 import MenuIcon from '@mui/icons-material/Menu'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { filterProducts } from '../features/productSlice'
 
 const SubMenu = () => {
+  const dispatch = useDispatch()
+
   const cateforyList = [
     {
       id: '0',
@@ -28,6 +32,10 @@ const SubMenu = () => {
     id: '1',
     name: 'All Categories'
   })
+
+  useEffect(() => {
+    dispatch(filterProducts(selectedCategory.name))
+  }, [selectedCategory])
 
   return (
     <Box
