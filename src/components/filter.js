@@ -23,8 +23,9 @@ const Filter = ({ withIcon, StartIcon, list, selected, selectFilterItem }) => {
           borderRadius: 1,
           cursor: 'pointer',
           display: 'flex',
+          fontWeight: 600,
           px: 3,
-          py: 1.2
+          py: 1.5
         }}
       >
         {withIcon ? (
