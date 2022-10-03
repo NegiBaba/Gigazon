@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { list } from '../api/api-products'
+import { filter, list } from '../api/api-products'
 
 const initialState = {
   products: [],
@@ -15,11 +15,19 @@ export const fetchProducts = createAsyncThunk(
   }
 )
 
+export const filterProducts = createAsyncThunk(
+  'products/filterProducts',
+  async (query) => {
+    const response = await filter(query)
+    return response.data
+  }
+)
+
 const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    addProducts (state, action) {
+    addProducts(state, action) {
       state = {
         ...state,
         products: [...action.payload]
@@ -27,7 +35,7 @@ const productSlice = createSlice({
       return state
     }
   },
-  extraReducers (builder) {
+  extraReducers(builder) {
     builder
       .addCase(fetchProducts.pending, (state, action) => {
         state.status = 'loading'
@@ -40,6 +48,9 @@ const productSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failure'
         state.error = action.error.message
+      })
+      .addCase(filterProducts.fulfilled, (state, action) => {
+        state.products = action.payload
       })
   }
 })

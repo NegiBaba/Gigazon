@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, IconButton, Typography } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import { debounce, get } from 'lodash'
@@ -11,9 +11,13 @@ import { put } from '../api/api-cart'
 
 const Product = ({ product }) => {
   const dispatch = useDispatch()
-  const currentProductInCart = useSelector((state) => state.cart.products.find(cartItem => {
-    return get(cartItem, 'product._id', undefined) === get(product, '_id', null)
-  }))
+  const currentProductInCart = useSelector((state) =>
+    state.cart.products.find((cartItem) => {
+      return (
+        get(cartItem, 'product._id', undefined) === get(product, '_id', null)
+      )
+    })
+  )
 
   const formattedPrice = () => {
     return Number.parseFloat(product.price).toFixed(2)
@@ -50,28 +54,29 @@ const Product = ({ product }) => {
   }
 
   const addProductsToCart = debounce(() => {
-    put(product, 1)
-      .then(() => {
-        if (!currentProductInCart) {
-          dispatch(fetchCartItems())
-        }
-      })
+    put(product, 1).then(() => {
+      if (!currentProductInCart) {
+        dispatch(fetchCartItems())
+      }
+    })
   }, 200)
 
   const decreaseProductQuantity = debounce(() => {
     if (currentProductInCart.quantity !== 1) {
-      put(currentProductInCart.product, currentProductInCart.quantity - 1)
-        .then(() => {
+      put(currentProductInCart.product, currentProductInCart.quantity - 1).then(
+        () => {
           dispatch(fetchCartItems())
-        })
+        }
+      )
     }
   })
 
   const increaseProductQuantity = debounce(() => {
-    put(currentProductInCart.product, currentProductInCart.quantity + 1)
-      .then(() => {
+    put(currentProductInCart.product, currentProductInCart.quantity + 1).then(
+      () => {
         dispatch(fetchCartItems())
-      })
+      }
+    )
   })
 
   return (
@@ -88,9 +93,6 @@ const Product = ({ product }) => {
           '& .buttonGroup-container': {
             borderStyle: 'solid',
             display: 'flex'
-          },
-          '& img': {
-            transform: 'scale(1.05)'
           },
           '& .MuiButton-root': {
             display: 'flex'
@@ -149,72 +151,73 @@ const Product = ({ product }) => {
           zIndex: '1040'
         }}
       >
-
         {/* CTAs */}
-        {
-          currentProductInCart ?
-            <ButtonGroup
-              variant="outlined"
-              disableFocusRipple
-              disableRipple
-              sx={{
-                display: 'none',
-              }}
-            >
-              <IconButton
-                disableFocusRipple
-                disableRipple
-                disableTouchRipple
-                sx={{
-                  borderRadius: '0',
-                  '&:hover': {
-                    backgroundColor: 'secondary.main',
-                    color: 'primary.main'
-                  }
-                }}
-                onClick={() => decreaseProductQuantity()}
-              >
-                <RemoveIcon />
-              </IconButton>
-              <Box sx={{
-                alignItems: 'center',
-                display: 'flex',
-                px: '10px'
-              }}>{currentProductInCart.quantity}</Box>
-              <IconButton
-                disableFocusRipple
-                disableRipple
-                disableTouchRipple
-                sx={{
-                  borderRadius: '0',
-                  '&:hover': {
-                    backgroundColor: 'secondary.main',
-                    color: 'primary.main'
-                  }
-                }}
-                onClick={() => increaseProductQuantity()}
-              >
-                <AddIcon />
-              </IconButton>
-            </ButtonGroup>
-            :
-            <Button
-              variant="contained"
-              disableElevation
+        {currentProductInCart ? (
+          <ButtonGroup
+            variant="outlined"
+            disableFocusRipple
+            disableRipple
+            sx={{
+              display: 'none'
+            }}
+          >
+            <IconButton
               disableFocusRipple
               disableRipple
               disableTouchRipple
               sx={{
-                display: 'none'
+                borderRadius: '0',
+                '&:hover': {
+                  backgroundColor: 'secondary.main',
+                  color: 'primary.main'
+                }
               }}
-              onClick={() => addProductsToCart()}
+              onClick={() => decreaseProductQuantity()}
             >
-              Add to Cart
-            </Button>
-        }
-
+              <RemoveIcon />
+            </IconButton>
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                px: '10px'
+              }}
+            >
+              {currentProductInCart.quantity}
+            </Box>
+            <IconButton
+              disableFocusRipple
+              disableRipple
+              disableTouchRipple
+              sx={{
+                borderRadius: '0',
+                '&:hover': {
+                  backgroundColor: 'secondary.main',
+                  color: 'primary.main'
+                }
+              }}
+              onClick={() => increaseProductQuantity()}
+            >
+              <AddIcon />
+            </IconButton>
+          </ButtonGroup>
+        ) : (
+          <Button
+            variant="contained"
+            disableElevation
+            disableFocusRipple
+            disableRipple
+            disableTouchRipple
+            sx={{
+              display: 'none'
+            }}
+            onClick={() => addProductsToCart()}
+          >
+            Add to Cart
+          </Button>
+        )}
       </Box>
-    </Box >
+    </Box>
   )
 }
 
