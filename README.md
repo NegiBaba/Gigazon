@@ -19,9 +19,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!---a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a--->
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="https://user-images.githubusercontent.com/48850319/193664999-4699087b-f444-474b-a0f1-593993043a33.png" alt="Logo" width="80" height="80">
+  </a>
 
   <h2 align="center">Gigazon</h2>
 
