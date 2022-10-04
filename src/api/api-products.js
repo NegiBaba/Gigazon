@@ -17,4 +17,8 @@ const filter = (query) => {
   return axios.get(`/api/filter?filter=${query}`)
 }
 
-export { list, filter }
+const search = (query) => {
+  return axios.get(`/api/search?q=${query}`)
+}
+
+export { list, filter, search }

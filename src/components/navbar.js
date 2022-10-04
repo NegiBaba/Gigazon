@@ -4,15 +4,14 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCartItems } from '../features/cartSlice'
 import EggIcon from '@mui/icons-material/Egg'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { searchProducts, setSearchString } from '../features/productSlice'
 
-const NavBar = ({ redirectToPage }) => {
-  const location = useLocation()
+const NavBar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
@@ -21,7 +20,6 @@ const NavBar = ({ redirectToPage }) => {
   const [showCategories, setCategoriesDropwdownState] = useState(false)
 
   useEffect(() => {
-    redirectToPage(location.pathname.slice(1))
     if (cart.status === 'idle') {
       dispatch(fetchCartItems())
       setCartItemsCount(cart.products.length)
@@ -47,11 +45,19 @@ const NavBar = ({ redirectToPage }) => {
 
   const redirectToCartPage = () => {
     navigate('/cart')
-    redirectToPage('cart')
   }
 
   const redirectToHome = () => {
     navigate('/')
+  }
+
+  const handleSearch = (event) => {
+    if (event.keyCode === 13) {
+      // NOTE: move fetch methods to the useEffect block in search page
+      dispatch(setSearchString(event.target.value))
+      dispatch(searchProducts(event.target.value))
+      navigate(`/search/${event.target.value}`)
+    }
   }
 
   return (
@@ -139,6 +145,7 @@ const NavBar = ({ redirectToPage }) => {
                   {showCategories ? categoriesDropdown() : null}
                 </Box>
 
+                {/* Search Input */}
                 <InputBase
                   placeholder={`I'm looking for....`}
                   sx={{
@@ -147,6 +154,7 @@ const NavBar = ({ redirectToPage }) => {
                     minWidth: '300px',
                     px: '10px'
                   }}
+                  onKeyDown={(event) => handleSearch(event)}
                 ></InputBase>
 
                 <Box
@@ -171,15 +179,22 @@ const NavBar = ({ redirectToPage }) => {
                   }
                 }}
               >
-                <SearchOutlinedIcon />
                 <Badge
                   badgeContent={cartItemsCount}
                   color="secondary"
                   onClick={() => redirectToCartPage()}
                 >
-                  <ShoppingCartOutlinedIcon />
+                  <ShoppingCartOutlinedIcon
+                    sx={{
+                      fontSize: 28
+                    }}
+                  />
                 </Badge>
-                <AccountCircleIcon />
+                <AccountCircleIcon
+                  sx={{
+                    fontSize: 28
+                  }}
+                />
               </Box>
             </Grid>
           </Grid>
@@ -187,10 +202,6 @@ const NavBar = ({ redirectToPage }) => {
       </Container>
     </Box>
   )
-}
-
-NavBar.propTypes = {
-  redirectToPage: PropTypes.func
 }
 
 export default NavBar
