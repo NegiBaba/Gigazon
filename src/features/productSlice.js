@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { filter, list } from '../api/api-products'
+import { filter, list, search } from '../api/api-products'
 
 const initialState = {
   products: [],
+  searchString: '',
   status: 'idle',
   error: null
 }
@@ -23,6 +24,14 @@ export const filterProducts = createAsyncThunk(
   }
 )
 
+export const searchProducts = createAsyncThunk(
+  'products/searchProducts',
+  async (query) => {
+    const response = await search(query)
+    return response.data.products
+  }
+)
+
 const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -33,6 +42,9 @@ const productSlice = createSlice({
         products: [...action.payload]
       }
       return state
+    },
+    setSearchString(state, action) {
+      state.searchString = action.payload
     }
   },
   extraReducers(builder) {
@@ -52,10 +64,17 @@ const productSlice = createSlice({
       .addCase(filterProducts.fulfilled, (state, action) => {
         state.products = action.payload
       })
+      .addCase(searchProducts.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.products = action.payload
+      })
   }
 })
 
-export const { addProducts } = productSlice.actions
+export const { addProducts, setSearchString } = productSlice.actions
 
 export default productSlice.reducer
 
